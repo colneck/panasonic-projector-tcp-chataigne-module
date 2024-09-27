@@ -3,7 +3,7 @@
   "type": "TCP Client",
   "path": "Hardware",
   "version": "0.0.2",
-  "description": "Chataigne Module for Panasonic RZ-Series by Nic Roßmann, Jonas Link (Thalia Theater Hamburg)",
+  "description": "Chataigne Module for Panasonic Projectors by Nic Roßmann, Jonas Link (Thalia Theater Hamburg)",
   "url": "",
   "downloadURL": "",
   "hasInput": true,
