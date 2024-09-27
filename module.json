@@ -1,0 +1,1140 @@
+{
+  "name": "Panasonic Projector IP-Protocol",
+  "type": "TCP Client",
+  "path": "Hardware",
+  "version": "0.0.2",
+  "description": "Chataigne Module for Panasonic RZ-Series by Nic Roßmann, Jonas Link (Thalia Theater Hamburg)",
+  "url": "",
+  "downloadURL": "",
+  "hasInput": true,
+  "hasOutput": true,
+  "hideDefaultCommands": true,
+  "defaults": {
+	"protocol": "Lines",
+	"output": {
+			"local" : false,
+			"remoteHost": "192.168.1.111",
+			"remotePort": 1024},
+			
+	},
+  "parameters": {},
+  "hideDefaultParameters": [],
+  "scripts": ["rzseries.js"],
+  "values": {
+  "NTCONTROL":{
+			"type":"String",
+			}
+    },
+  "commands": {
+    "Power": {
+      "menu": "",
+      "callback": "power",
+      "parameters": {
+        "Power": {
+          "type": "Enum",
+          "options": {
+            "ON": "PON",
+            "OFF": "POF"
+          }
+        }
+      }
+    },
+    "Shutter": {
+      "menu": "Shutter",
+      "callback": "shutter",
+      "parameters": {
+        "Shutter": {
+          "type": "Enum",
+          "options": {
+            "Open": 0,
+            "Close": 1
+          }
+        }
+      }
+    },
+    "Shutter Fade": {
+      "menu": "Shutter",
+      "callback": "shutter_fade",
+      "parameters": {
+        "FadeIn/Out": {
+          "type": "Enum",
+          "options": {
+            "In": 1,
+            "Out": 2
+          }
+        },
+        "Duration": {
+          "type": "Enum",
+          "options": {
+            "OFF": "0.0",
+            "0.5s": "0.5",
+            "1.0s": "1.0",
+            "1.5s": "1.5",
+            "2.0s": "2.0",
+            "2.5s": "2.5",
+            "3.0s": "3.0",
+            "3.5s": "3.5",
+            "4.0s": "4.0",
+            "5.0s": "5.0",
+            "7.0s": "7.0",
+            "10s": "10.0"
+          }
+        }
+      }
+    },
+    "Input Select": {
+      "menu": "",
+      "callback": "input_select",
+      "parameters": {
+        "Input": {
+          "type": "Enum",
+          "options": {
+            "RGB-1 RGBHV": "RG1",
+            "RGB-2 VGA": "RG2",
+            "Video FBAS": "VID",
+            "DVI-D": "DVI",
+            "HDMI1": "HD1",
+			"HDMI2": "HD2",
+            "Digital Link": "DL1",
+            "SDI": "SDI",
+			"SLOT-SDI": "DM1,SD1",
+			"Display Port": "DP1"
+          }
+        }
+      }
+    },
+    "Projection Method": {
+      "menu": "Projector Setup",
+      "callback": "projection_method",
+      "parameters": {
+        "Method": {
+          "type": "Enum",
+          "options": {
+            "Front/Desk": "0",
+            "Rear/Desk": "1",
+            "Front/Ceiling": "2",
+            "Rear/Ceiling": "3"
+          }
+        }
+      }
+    },
+    "Picture Mode": {
+      "menu": "Picture",
+      "callback": "picture_mode",
+      "parameters": {
+        "Mode": {
+          "type": "Enum",
+          "options": {
+            "Dynamic": "DYN",
+            "Graphic": "GRA",
+            "Standard": "STD",
+            "Cinema": "CIN",
+            "Natural": "NAT",
+            "Dicom Sim": "DIC",
+            "Rec709": "709"
+          }
+        }
+      }
+    },
+    "Contrast": {
+      "menu": "Picture",
+      "callback": "picture_contrast",
+      "parameters": {
+        "Contrast": {
+          "type": "Integer",
+          "default": 0,
+          "min": -31,
+          "max": 31
+        }
+      }
+    },
+    "Brightness": {
+      "menu": "Picture",
+      "callback": "picture_brightness",
+      "parameters": {
+        "Brightness": {
+          "type": "Integer",
+          "default": 0,
+          "min": -31,
+          "max": 31
+        }
+      }
+    },
+    "Color": {
+      "menu": "Picture",
+      "callback": "picture_color",
+      "parameters": {
+        "Color": {
+          "type": "Integer",
+          "default": 0,
+          "min": -31,
+          "max": 31
+        }
+      }
+    },
+    "Tint": {
+      "menu": "Picture",
+      "callback": "picture_tint",
+      "parameters": {
+        "Tint": {
+          "type": "Integer",
+          "default": 0,
+          "min": -31,
+          "max": 31
+        }
+      }
+    },
+    "Color Temperature": {
+      "menu": "Picture",
+      "callback": "picture_color_temp",
+      "parameters": {
+        "Temperature": {
+          "type": "Enum",
+          "options": {
+            "User1": "4",
+            "User2": "9",
+            "Default": "10",
+            "3200K": "3200",
+            "3300K": "3300",
+            "9200K": "9200",
+            "9300K": "9300"
+          }
+        }
+      }
+    },
+    "Color Temperature User 1": {
+      "menu": "Picture",
+      "callback": "picture_color_temp_u1",
+      "parameters": {
+        "Temperature User1": {
+          "type": "Integer",
+          "default": 0,
+          "min": 0,
+          "max": 100
+        }
+      }
+    },
+    "Color Temperature User 2": {
+      "menu": "Picture",
+      "callback": "picture_color_temp_u2",
+      "parameters": {
+        "Temperature User2": {
+          "type": "Integer",
+          "default": 0,
+          "min": 0,
+          "max": 100
+        }
+      }
+    },
+    "White Gain": {
+      "menu": "Picture",
+      "callback": "picture_white_gain",
+      "parameters": {
+        "white gain": {
+          "type": "Integer",
+          "default": 0,
+          "min": 0,
+          "max": 10
+        }
+      }
+    },
+    "Gamma": {
+      "menu": "Picture",
+      "callback": "picture_gamma",
+      "parameters": {
+        "Gamma": {
+          "type": "Enum",
+          "options": {
+            "1.8": "1.8",
+            "2.0": "2.0",
+            "2.2": "2.2",
+            "User 1": "U1",
+            "Default": "DEF"
+          }
+        }
+      }
+    },
+    "Gamma User 1": {
+      "menu": "Picture",
+      "callback": "picture_gamma_u1",
+      "parameters": {
+        "User 1": {
+          "type": "Integer",
+          "default": 0,
+          "min": 0,
+          "max": 100
+        }
+      }
+    },
+    "System Daylight View": {
+      "menu": "Picture",
+      "callback": "picture_daylight_view",
+      "parameters": {
+        "Daylight view": {
+          "type": "Enum",
+          "options": {
+            "Off": "00000",
+            "1": "00001",
+            "2": "00002",
+            "3": "00003"
+          }
+        }
+      }
+    },
+    "Sharpness": {
+      "menu": "Picture",
+      "callback": "picture_sharpness",
+      "parameters": {
+        "Sharpness": {
+          "type": "Integer",
+          "default": 0,
+          "min": 0,
+          "max": 15
+        }
+      }
+    },
+    "Noise Reduction": {
+      "menu": "Picture",
+      "callback": "picture_noise_reduction",
+      "parameters": {
+        "Noise Reduction": {
+          "type": "Enum",
+          "options": {
+            "Off": "0",
+            "1": "1",
+            "2": "2",
+            "3": "3"
+          }
+        }
+      }
+    },
+    "Dynamic Contrast": {
+      "menu": "Picture",
+      "callback": "picture_dyn_contrast",
+      "parameters": {
+        "Dynamic Contrast": {
+          "type": "Enum",
+          "options": {
+            "Off": "0",
+            "1": "1",
+            "2": "2",
+            "3": "3",
+            "User": "4"
+          }
+        }
+      }
+    },
+	"Dynamic Contrast NX (MZ-Series)": {
+      "menu": "Picture",
+      "callback": "picture_dyn_contrast_nx",
+      "parameters": {
+        "Dynamic Contrast NX": {
+          "type": "Enum",
+          "options": {
+            "Off": "00",
+            "1": "01",
+            "2": "02",
+            "3": "03",
+            "User": "10"
+          }
+        }
+      }
+    },
+    "Geometry": {
+      "menu": "Position",
+      "callback": "geometry",
+      "parameters": {
+        "Mode": {
+          "type": "Enum",
+          "options": {
+            "Off": "00",
+            "Keystone": "01",
+            "Curved Correction": "02",
+            "PC-1": "03",
+            "PC-2": "04",
+            "PC-3": "05",
+            "Corner Correction": "10"
+          }
+        }
+      }
+    },
+    "Keystone": {
+      "menu": "Position",
+      "callback": "geometry_keystone",
+      "parameters": {
+        "Keystone Modules": {
+          "type": "Enum",
+          "options": {
+            "Keystone": "OKS",
+            "Sub Keystone": "OSK",
+            "Linearity": "VLI"
+          }
+        },
+        "Keystone": {
+          "type": "Integer",
+          "default": 0,
+          "min": -127,
+          "max": 127,
+          "dependency": {
+            "source": "Keystone Modules",
+            "value": "OKS",
+            "check": "equals",
+            "action": "show"
+          }
+        },
+        "Sub Keystone": {
+          "type": "Integer",
+          "default": 0,
+          "min": -63,
+          "max": 63,
+          "dependency": {
+            "source": "Keystone Modules",
+            "value": "OSK",
+            "check": "equals",
+            "action": "show"
+          }
+        },
+        "Linearity": {
+          "type": "Integer",
+          "default": 0,
+          "min": -127,
+          "max": 127,
+          "dependency": {
+            "source": "Keystone Modules",
+            "value": "VLI",
+            "check": "equals",
+            "action": "show"
+          }
+        }
+      }
+    },
+    "Geometry Keystone": {
+      "menu": "Position",
+      "callback": "geometry_gkeystone",
+      "parameters": {
+        "Modules": {
+          "type": "Enum",
+          "options": {
+            "Lens Throw Ratio": "VXX:GMKS0=+",
+            "Vertical Keystone": "VXX:GMKS8=",
+            "Horizontal Keystone": "VXX:GMKS9=",
+            "Vertical Balance": "VXX:GMKI4=",
+            "Horizontal Balance": "VXX:GMKI7="
+          }
+        },
+        "Lens Throw Ratio": {
+          "type": "String",
+          "default": "0.7",
+          "description": "Projektions Faktor von 0.7 bis 16.5",
+          "dependency": {
+            "source": "Modules",
+            "value": "VXX:GMKS0=+",
+            "check": "equals",
+            "action": "show"
+          }
+        },
+        "Vertical Keystone": {
+          "type": "String",
+          "default": "0",
+          "description": "-40 bis 40 0.2 Schritte",
+          "dependency": {
+            "source": "Modules",
+            "value": "VXX:GMKS8=",
+            "check": "equals",
+            "action": "show"
+          }
+        },
+        "Horizontal Keystone": {
+          "type": "String",
+          "default": "0",
+          "description": "-15 bis 15 0.2 Schritte",
+          "dependency": {
+            "source": "Modules",
+            "value": "VXX:GMKS9=",
+            "check": "equals",
+            "action": "show"
+          }
+        },
+        "Vertical Balance": {
+          "type": "Integer",
+          "default": 0,
+          "min": -60,
+          "max": 60,
+          "dependency": {
+            "source": "Modules",
+            "value": "VXX:GMKI4=",
+            "check": "equals",
+            "action": "show"
+          }
+        },
+        "Horizontal Balance": {
+          "type": "Integer",
+          "default": 0,
+          "min": -30,
+          "max": 30,
+          "dependency": {
+            "source": "Modules",
+            "value": "VXX:GMKI7=",
+            "check": "equals",
+            "action": "show"
+          }
+        }
+      }
+    },
+    "Geometry Curved": {
+      "menu": "Position",
+      "callback": "geometry_gcurved",
+      "parameters": {
+        "Modules": {
+          "type": "Enum",
+          "options": {
+            "Lens Throw Ratio": "VXX:GMCS0=+",
+            "Vertical Keystone": "VXX:GMCS8=",
+            "Horizontal Keystone": "VXX:GMCS9=",
+            "Vertical Balance": "VXX:GMCI2=",
+            "Horizontal Balance": "VXX:GMCI6=",
+            "Vertical Arc": "VXX:GMCI3=",
+            "Horizontal Arc": "VXX:GMCI7=",
+            "Maintain Aspect Ratio": "VXX:GMCIA=+"
+          }
+        },
+        "Lens Throw Ratio": {
+          "type": "String",
+          "default": "0.7",
+          "description": "Projektions Faktor von 0.7 bis 16.5",
+          "dependency": {
+            "source": "Modules",
+            "value": "VXX:GMCS0=+",
+            "check": "equals",
+            "action": "show"
+          }
+        },
+        "Vertical Keystone": {
+          "type": "String",
+          "default": "0",
+          "description": "-40 bis 40 0.2 Schritte",
+          "dependency": {
+            "source": "Modules",
+            "value": "VXX:GMCS8=",
+            "check": "equals",
+            "action": "show"
+          }
+        },
+        "Horizontal Keystone": {
+          "type": "String",
+          "default": "0",
+          "description": "-15 bis 15 0.2 Schritte",
+          "dependency": {
+            "source": "Modules",
+            "value": "VXX:GMCS9=",
+            "check": "equals",
+            "action": "show"
+          }
+        },
+        "Vertical Balance": {
+          "type": "Integer",
+          "default": 0,
+          "min": -60,
+          "max": 60,
+          "dependency": {
+            "source": "Modules",
+            "value": "VXX:GMCI2=",
+            "check": "equals",
+            "action": "show"
+          }
+        },
+        "Horizontal Balance": {
+          "type": "Integer",
+          "default": 0,
+          "min": -30,
+          "max": 30,
+          "dependency": {
+            "source": "Modules",
+            "value": "VXX:GMCI6=",
+            "check": "equals",
+            "action": "show"
+          }
+        },
+        "Vertical Arc": {
+          "type": "Integer",
+          "default": 0,
+          "min": -50,
+          "max": 50,
+          "dependency": {
+            "source": "Modules",
+            "value": "VXX:GMCI3=",
+            "check": "equals",
+            "action": "show"
+          }
+        },
+        "Horizontal Arc": {
+          "type": "Integer",
+          "default": 0,
+          "min": -50,
+          "max": 50,
+          "dependency": {
+            "source": "Modules",
+            "value": "VXX:GMCI7=",
+            "check": "equals",
+            "action": "show"
+          }
+        },
+        "Maintain Aspect Ratio": {
+          "type": "Boolean",
+          "default": false,
+          "dependency": {
+            "source": "Modules",
+            "value": "VXX:GMCIA=+",
+            "check": "equals",
+            "action": "show"
+          }
+        }
+      }
+    },
+    "Geometry Corner Correction": {
+      "menu": "Position",
+      "callback": "geometry_gcorner",
+      "setupCallback": "geometry_gcorner_setup",
+      "parameters": {
+        "Corner": {
+          "type": "Enum",
+          "options": {
+            "Upper Left": 1,
+            "Upper Right": 2,
+            "Lower Left": 3,
+            "Lower Right": 4,
+            "Linearity": 5
+          }
+        },
+        "VerticalHorizontal": {
+          "type": "Enum",
+          "options": {
+            "Vertical": 1,
+            "Horizontal": 2
+          }
+        },
+        "Value": {
+          "type": "Integer",
+          "default": 0,
+          "min": -480,
+          "max": 480
+        }
+      }
+    },
+    "Shift": {
+      "menu": "Position",
+      "callback": "screen_shift",
+      "parameters": {
+        "Vertical/Horizontal": {
+          "type": "Enum",
+          "options": {
+            "Vertikal": "V",
+            "Horizontal": "H"
+          }
+        },
+        "Shift V": {
+          "type": "Integer",
+          "default": 0,
+          "min": -4094,
+          "max": 4094,
+          "dependency": {
+            "source": "Vertical/Horizontal",
+            "value": "V",
+            "check": "equals",
+            "action": "show"
+          }
+        },
+        "Shift H": {
+          "type": "Integer",
+          "default": 0,
+          "min": -4094,
+          "max": 4095,
+          "dependency": {
+            "source": "Vertical/Horizontal",
+            "value": "H",
+            "check": "equals",
+            "action": "show"
+          }
+        }
+      }
+    },
+    "Aspect": {
+      "menu": "Position",
+      "callback": "picture_aspect",
+      "parameters": {
+        "Aspect": {
+          "type": "Enum",
+          "options": {
+            "Default": "0",
+            "4:3": "1",
+            "16:9": "2",
+            "Through": "5",
+            "HV Fit": "6",
+            "H Fit": "9",
+            "V Fit": "10"
+          }
+        }
+      }
+    },
+    "Zoom Interlock": {
+      "menu": "Position",
+      "callback": "picture_zoom_lock",
+      "parameters": {
+        "Lock": {
+          "type": "Enum",
+          "options": {
+            "OFF": "0",
+            "ON": "1"
+          }
+        }
+      }
+    },
+    "Zoom": {
+      "menu": "Position",
+      "callback": "screen_zoom",
+      "parameters": {
+        "Vertical/Horizontal": {
+          "type": "Enum",
+          "options": {
+            "Vertikal": "V",
+            "Horizontal": "H",
+            "Both": "O"
+          }
+        },
+        "Zoom": {
+          "type": "Integer",
+          "default": 100,
+          "min": 50,
+          "max": 999
+        }
+      }
+    },
+    "Zoom Mode": {
+      "menu": "Position",
+      "callback": "picture_zoom_mode",
+      "parameters": {
+        "Mode": {
+          "type": "Enum",
+          "options": {
+            "Internal": "0",
+            "Full": "1"
+          }
+        }
+      }
+    },
+    "Blanking": {
+      "menu": "Advanced",
+      "callback": "advanced_blanking",
+      "parameters": {
+        "Side": {
+          "type": "Enum",
+          "options": {
+            "Upper": "DBU:",
+            "Lower": "DBB:",
+            "Right": "DBR:",
+            "Left": "DBL:"
+          }
+        },
+        "Upper": {
+          "type": "Integer",
+          "default": 0,
+          "min": 0,
+          "max": 2398,
+          "dependency": {
+            "source": "Side",
+            "value": "DBU:",
+            "check": "equals",
+            "action": "show"
+          }
+        },
+        "Lower": {
+          "type": "Integer",
+          "default": 0,
+          "min": 0,
+          "max": 2398,
+          "dependency": {
+            "source": "Side",
+            "value": "DBB:",
+            "check": "equals",
+            "action": "show"
+          }
+        },
+        "Right": {
+          "type": "Integer",
+          "default": 0,
+          "min": 0,
+          "max": 3838,
+          "dependency": {
+            "source": "Side",
+            "value": "DBR:",
+            "check": "equals",
+            "action": "show"
+          }
+        },
+        "Left": {
+          "type": "Integer",
+          "default": 0,
+          "min": 0,
+          "max": 3838,
+          "dependency": {
+            "source": "Side",
+            "value": "DBL:",
+            "check": "equals",
+            "action": "show"
+          }
+        }
+      }
+    },
+    "Edge Blending": {
+      "menu": "Advanced",
+      "callback": "advanced_blending",
+      "parameters": {
+        "Value": {
+          "type": "Enum",
+          "options": {
+            "OFF": "VXX:EDBI0=+00000",
+            "ON": "VXX:EDBI0=+00001",
+            "User": "VXX:EDBI0=+00002"
+          }
+        }
+      }
+    },
+    "Edge Blending On/Off": {
+      "menu": "Advanced",
+      "callback": "advanced_blending_onoff",
+      "parameters": {
+        "Side": {
+          "type": "Enum",
+          "options": {
+            "Upper": "VGU:",
+            "Lower": "VGB:",
+            "Right": "VGR:",
+            "Left": "VGL:"
+          }
+        },
+        "ON OFF": {
+          "type": "Boolean"
+        }
+      }
+    },
+    "Edge Blending Start": {
+      "menu": "Advanced",
+      "callback": "advanced_blending_start",
+      "parameters": {
+        "Side": {
+          "type": "Enum",
+          "options": {
+            "Upper": "VEU:",
+            "Lower": "VEB:",
+            "Right": "VER:",
+            "Left": "VEL:"
+          }
+        },
+        "Upper": {
+          "type": "Integer",
+          "default": 0,
+          "min": 0,
+          "max": 2272,
+          "dependency": {
+            "source": "Side",
+            "value": "VEU:",
+            "check": "equals",
+            "action": "show"
+          }
+        },
+        "Lower": {
+          "type": "Integer",
+          "default": 0,
+          "min": 0,
+          "max": 2272,
+          "dependency": {
+            "source": "Side",
+            "value": "VEB:",
+            "check": "equals",
+            "action": "show"
+          }
+        },
+        "Right": {
+          "type": "Integer",
+          "default": 0,
+          "min": 0,
+          "max": 3712,
+          "dependency": {
+            "source": "Side",
+            "value": "VER:",
+            "check": "equals",
+            "action": "show"
+          }
+        },
+        "Left": {
+          "type": "Integer",
+          "default": 0,
+          "min": 0,
+          "max": 3712,
+          "dependency": {
+            "source": "Side",
+            "value": "VEL:",
+            "check": "equals",
+            "action": "show"
+          }
+        }
+      }
+    },
+    "Edge Blending Width": {
+      "menu": "Advanced",
+      "callback": "advanced_blending_width",
+      "parameters": {
+        "Side": {
+          "type": "Enum",
+          "options": {
+            "Upper": "VXX:EUWI0=+",
+            "Lower": "VXX:EBWI0=+",
+            "Right": "VXX:ERWI0=+",
+            "Left": "VXX:ELWI0=+"
+          }
+        },
+        "Upper": {
+          "type": "Integer",
+          "default": 0,
+          "min": 0,
+          "max": 2272,
+          "dependency": {
+            "source": "Side",
+            "value": "VXX:EUWI0=+",
+            "check": "equals",
+            "action": "show"
+          }
+        },
+        "Lower": {
+          "type": "Integer",
+          "default": 0,
+          "min": 0,
+          "max": 2272,
+          "dependency": {
+            "source": "Side",
+            "value": "VXX:EBWI0=+",
+            "check": "equals",
+            "action": "show"
+          }
+        },
+        "Right": {
+          "type": "Integer",
+          "default": 0,
+          "min": 0,
+          "max": 3712,
+          "dependency": {
+            "source": "Side",
+            "value": "VXX:ERWI0=+",
+            "check": "equals",
+            "action": "show"
+          }
+        },
+        "Left": {
+          "type": "Integer",
+          "default": 0,
+          "min": 0,
+          "max": 3712,
+          "dependency": {
+            "source": "Side",
+            "value": "VXX:ELWI0=+",
+            "check": "equals",
+            "action": "show"
+          }
+        }
+      }
+    },
+    "Edge Blending Marker": {
+      "menu": "Advanced",
+      "callback": "advanced_blending_marker",
+      "parameters": {
+        "Value": {
+          "type": "Boolean"
+        }
+      }
+    },
+	"Quad Pixel Drive (REQ-Series)": {
+      "menu": "Advanced",
+      "callback": "quad_pixel_drive",
+      "parameters": {
+        "Value": {
+          "type": "Boolean"
+        }
+      }
+    },
+    "Raster Position": {
+      "menu": "Advanced",
+      "callback": "advanced_raster",
+      "parameters": {
+        "Vertical/Horizontal": {
+          "type": "Enum",
+          "options": {
+            "Vertikal": "VRV:",
+            "Horizontal": "VRH:"
+          }
+        },
+        "Position": {
+          "type": "Integer",
+          "default": 0,
+          "min": -2048,
+          "max": 2047
+        }
+      }
+    },
+    "Color Matching": {
+      "menu": "Display Options",
+      "callback": "display_color",
+      "parameters": {
+        "Color Matching": {
+          "type": "Enum",
+          "options": {
+            "OFF": "0",
+            "3 Colors": "1",
+            "7 Colors": "2",
+            "Measured": "3"
+          }
+        }
+      }
+    },
+    "Color Matching 3 Colors": {
+      "menu": "Display Options",
+      "callback": "display_color_3",
+      "parameters": {
+        "Color": {
+          "type": "Enum",
+          "options": {
+            "Red": "1",
+            "Green": "2",
+            "Blue": "3",
+            "White": "4",
+			"Auto Testpattern": "5",
+			"Reset": "6",
+          }
+        },
+        "Red Channel": {
+          "type": "Integer",
+		  "value" : "red",
+		  "min": 0,
+          "max": 2048,
+			"dependency": {
+            "source": "Color",
+            "value": "4",
+            "check": "lessThan",
+            "action": "show"
+          }
+        },
+        "Green Channel": {
+          "type": "Integer",
+		  "value" : "green",
+		  "min": 0,
+          "max": 2048,
+			"dependency": {
+            "source": "Color",
+            "value": "4",
+            "check": "lessThan",
+            "action": "show"
+          }
+        },
+        "Blue Channel": {
+          "type": "Integer",
+		  "value" : "blue",
+		  "min": 0,
+          "max": 2048,
+			"dependency": {
+            "source": "Color",
+            "value": "4",
+            "check": "lessThan",
+            "action": "show"
+          }
+        },
+        "White Gain": {
+          "type": "Integer",
+		  "value" : "w",
+          "default": 2048,
+          "min": 256,
+          "max": 2048,
+          "dependency": {
+            "source": "Color",
+            "value": "4",
+            "check": "equals",
+            "action": "show"
+          }
+        },
+        "Auto Testpattern": {
+          "type": "Boolean",
+		  "value" : "tp",
+		"dependency": {
+            "source": "Color",
+            "value": "5",
+            "check": "equals",
+            "action": "show"
+          }
+        }
+      }
+    },
+    "Screen Format": {
+      "menu": "Display Options",
+      "callback": "screen_format",
+      "parameters": {
+        "Method": {
+          "type": "Enum",
+          "options": {
+            "16/10": "0",
+            "16/9": "1",
+            "4/3": "2"
+          }
+        }
+      }
+    },
+    "Screen Postion": {
+      "menu": "Display Options",
+      "callback": "screen_position",
+      "parameters": {
+        "Vertical/Horizontal": {
+          "type": "Enum",
+          "options": {
+            "Vertikal": "V",
+            "Horizontal": "H"
+          }
+        },
+        "Position V": {
+          "type": "Integer",
+          "default": 0,
+          "min": -60,
+          "max": 60,
+          "dependency": {
+            "source": "Vertical/Horizontal",
+            "value": "V",
+            "check": "equals",
+            "action": "show"
+          }
+        },
+        "Position H": {
+          "type": "Integer",
+          "default": 0,
+          "min": -160,
+          "max": 160,
+          "dependency": {
+            "source": "Vertical/Horizontal",
+            "value": "H",
+            "check": "equals",
+            "action": "show"
+          }
+        }
+      }
+    },
+    "Image Rotation": {
+      "menu": "Display Options",
+      "callback": "screen_roation",
+      "parameters": {
+        "Rotation": {
+          "type": "Enum",
+          "options": {
+            "OFF": "0",
+            "90° R": "1",
+            "90° L": "2"
+          }
+        }
+      }
+    }
+  }
+}
