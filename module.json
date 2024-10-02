@@ -19,7 +19,7 @@
 	},
   "parameters": {},
   "hideDefaultParameters": [],
-  "scripts": ["rzseries.js"],
+  "scripts": ["panasonic_projectors_tcp.js"],
   "values": {
   "NTCONTROL":{
 			"type":"String",
