@@ -1,14 +1,56 @@
+//------- BASIC-FUNCTIONS 
+
+
+
 function init() {
   script.log("Panasonic Projector IP module loaded");
 }
-
+	
 function moduleParameterChanged(param) {
   script.log(param.name + " parameter changed, new value: " + param.get());
 }
 
 function send_command(command) {
 	local.send("00" + command + "\r \n");
+  //Can lead to errors, when connection is not established yet. Searching for another way to get feedback if password-proztecion is on
+	//if (root.modules.panasonicProjectorIP_Protocol.values.ntcontrol.get() != '0') script.logWarning("Please disable command-protect in the menu of your projector.");
 }
+
+function numberToString(num) {
+    return '' + num; // Einfache String-Konkatenation, um eine Zahl in einen String umzuwandeln
+}
+
+function padStartCustom(str, targetLength, padString) {
+    padString = padString || '0'; // Standardmäßig mit '0' auffüllen
+    while (str.length < targetLength) {
+        str = padString + str;
+    }
+    return str;
+}
+
+function formatNumber(num) {
+    // Erstellen der absoluten Zahl und Formatieren auf 4 Stellen
+    var formatted = Math.abs(num);
+	formatted = numberToString(formatted);
+	formatted = padStartCustom(formatted, 4, '0');
+
+    // Fügen Sie das Vorzeichen hinzu, wenn die Zahl negativ ist
+    return num < 0 ? '-' + formatted : formatted;
+}
+
+function formatNumber5(num) {
+    // Erstellen der absoluten Zahl und Formatieren auf 5 Stellen
+    var formatted = Math.abs(num);
+	formatted = numberToString(formatted);
+	formatted = padStartCustom(formatted, 5, '0');
+
+    // Fügen Sie das Vorzeichen hinzu
+    return num < 0 ? '-' + formatted : '+' + formatted;
+}
+
+
+//------- FUNCTIONS 
+
 
 function power(value) {
   send_command(value);
@@ -126,28 +168,6 @@ function picture_dyn_contrast_nx(con) {
   send_command("VXX:DCNI1=+000" + con);
 }
 
-function numberToString(num) {
-    return '' + num; // Einfache String-Konkatenation, um eine Zahl in einen String umzuwandeln
-}
-
-function padStartCustom(str, targetLength, padString) {
-    padString = padString || '0'; // Standardmäßig mit '0' auffüllen
-    while (str.length < targetLength) {
-        str = padString + str;
-    }
-    return str;
-}
-
-function formatNumber(num) {
-    // Erstellen der absoluten Zahl und Formatieren auf 4 Stellen
-    var formatted = Math.abs(num);
-	formatted = numberToString(formatted);
-	formatted = padStartCustom(formatted, 4, '0');
-
-    // Fügen Sie das Vorzeichen hinzu, wenn die Zahl negativ ist
-    return num < 0 ? '-' + formatted : formatted;
-}
-
 function screen_shift(v_h, valueV, valueH) {
   if (v_h == "V") value = valueV;
   else value = valueH;
@@ -253,70 +273,31 @@ function geometry_gcurved(module, ltr, vk, hk, vb, hb, va, ha, mar) {
   send_command(module + ":" + value);
 }
 
-function geometry_gcorner(corner, vh, value) {
-  if (geometry_gcorner_check(corner, vh, value)) {
-    if (value < 0) {
-      vorz = "-";
-      value = Math.abs(value);
-    } else vorz = "+";
-
-    if (value < 10) value = "0000" + value;
-    else if (value < 100) value = "000" + value;
-    else if (value < 1000) value = "00" + value;
-    else if (value < 10000) value = "0" + value;
-    value = vorz + value;
+function geometry_gcorner(corner, vh, value, automan) {
+    
+	value = formatNumber5(value);
+	automan = formatNumber5(automan);
 
     if (vh == 1) {
       if (corner == 1) send_command("VXX:GMFI1=" + value);
       else if (corner == 2) send_command("VXX:GMFI2=" + value);
       else if (corner == 3) send_command("VXX:GMFI3=" + value);
       else if (corner == 4) send_command("VXX:GMFI4=" + value);
-      else if (corner == 5) send_command("VXX:GMFI5=" + value);
+      else if (corner == 5) send_command("VXX:GMFIF=" + automan);
     } else {
       if (corner == 1) send_command("VXX:GMFI6=" + value);
       else if (corner == 2) send_command("VXX:GMFI7=" + value);
       else if (corner == 3) send_command("VXX:GMFI8=" + value);
       else if (corner == 4) send_command("VXX:GMFI9=" + value);
-      else if (corner == 5) send_command("VXX:GMFIA=" + value);
+      else if (corner == 5) send_command("VXX:GMFIF=" + automan);
     }
-  } else {
-    util.showMessageBox(
-      "Falsche Werte",
-      "Die Werte sind nicht in den Grenzen für die Ecke"
-    );
   }
-}
 
-function geometry_gcorner_check(corner, vh, value) {
-  if (vh == 1) {
-    if (corner == 1 || corner == 2) {
-      if (value > 300) return false;
-      else if (value < 0) return false;
-      else return true;
-    } else if (corner == 3 || corner == 4) {
-      if (value > 0) return false;
-      else if (value < -300) return false;
-      else return true;
-    } else if (corner == 5) {
-      if (value > 127) return false;
-      else if (value < -127) return false;
-      else return true;
-    }
-  } else {
-    if (corner == 1 || corner == 3) {
-      if (value > 480) return false;
-      else if (value < 0) return false;
-      else return true;
-    } else if (corner == 2 || corner == 4) {
-      if (value > 0) return false;
-      else if (value < -480) return false;
-      else return true;
-    } else if (corner == 5) {
-      if (value > 127) return false;
-      else if (value < -127) return false;
-      else return true;
-    }
-  }
+
+function geometry_gcorner_linearity(vh, value) {
+	value = formatNumber5(value);
+	if (vh == 1) send_command("VXX:GMFI5=" + value);
+	else send_command("VXX:GMFIA=" + value);
 }
 
 function advanced_blanking(side, up, down, right, left) {
@@ -399,6 +380,38 @@ function display_color_3(color, red, green, blue, w, tp) {
 
 }
 
+function display_color_7(color, red, green, blue, tp) {
+	w = formatNumber(w);
+	red = formatNumber(red);
+	green = formatNumber(green);
+	blue = formatNumber(blue);
+	if (color <= "6") 
+		send_command("VXX:C7CS" + color + "=" + red + "," + green + "," + blue);
+	else if (color == "7") 
+		send_command("VXX:CATI1=+0000" + tp);	
+	else if (color == "8")
+		send_command("VXX:CREI2=+00001");
+
+}
+
+function color_correction_onoff(command) {
+  send_command("VCM:"+command);
+}
+
+function color_correction(colorCorrection, value) {
+	value = formatNumber5(value);
+	send_command("VXX:CCRI"+colorCorrection+"="+value);
+}
+
 function quad_pixel_drive(value) {
   send_command("VXX:QPDI1=+0000" + value);
+}
+
+function operation_setting(value) {
+  send_command("VXX:OPEI1=+"+value);
+}
+
+function light_output(value) {
+	value = formatNumber(value);
+	send_command("VXX:LOPI2=+"+value+"0");
 }

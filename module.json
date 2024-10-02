@@ -3,7 +3,7 @@
   "type": "TCP Client",
   "path": "Hardware",
   "version": "0.0.2",
-  "description": "Chataigne Module for Panasonic Projectors by Nic Roßmann, Jonas Link (Thalia Theater Hamburg)",
+  "description": "Chataigne Module for IP-control of Panasonic Projectors by Nic Roßmann, Jonas Link (Thalia Theater Hamburg)",
   "url": "",
   "downloadURL": "",
   "hasInput": true,
@@ -19,7 +19,7 @@
 	},
   "parameters": {},
   "hideDefaultParameters": [],
-  "scripts": ["panasonic_projectors.js"],
+  "scripts": ["rzseries.js"],
   "values": {
   "NTCONTROL":{
 			"type":"String",
@@ -115,6 +115,35 @@
             "Front/Ceiling": "2",
             "Rear/Ceiling": "3"
           }
+        }
+      }
+    },
+	"Operation Setting": {
+      "menu": "Projector Setup",
+      "callback": "operation_setting",
+      "parameters": {
+        "Method": {
+          "type": "Enum",
+          "options": {
+            "Normal": "00000",
+            "Eco": "00001",
+			"Quiet": "00021",
+            "User1": "00101",
+			"User2": "00102",
+			"User3": "00103"
+          }
+        }
+      }
+    },
+	"Light Output": {
+      "menu": "Projector Setup",
+      "callback": "light_output",
+      "parameters": {
+        "Light Output": {
+          "type": "Integer",
+          "default": 100,
+          "min": 5,
+          "max": 100,
         }
       }
     },
@@ -606,18 +635,63 @@
             "Linearity": 5
           }
         },
-        "VerticalHorizontal": {
+        "Vertical/Horizontal": {
           "type": "Enum",
+		  "value" : "vh",
           "options": {
             "Vertical": 1,
             "Horizontal": 2
+          },
+		   "dependency": {
+            "source": "Corner",
+            "value": "5",
+            "check": "lessThan",
+            "action": "show"
           }
         },
         "Value": {
           "type": "Integer",
           "default": 0,
-          "min": -480,
-          "max": 480
+		  	"dependency": {
+            "source": "Corner",
+            "value": "5",
+            "check": "lessThan",
+            "action": "show"
+          }
+        },
+		"Auto/Manual": {
+          "type": "Enum",
+		  "value" : "automan",
+          "options": {
+            "Auto": 0,
+            "Man": 1
+          },
+		   "dependency": {
+            "source": "Corner",
+            "value": "5",
+            "check": "equals",
+            "action": "show"
+          } 
+        }	
+      }
+    },
+	"Geometry Corner Correction Linearity": {
+      "menu": "Position",
+      "callback": "geometry_gcorner_linearity",
+      "parameters": {
+		"Vertical/Horizontal": {
+		"value" : "vh",
+          "type": "Enum",
+          "options": {
+            "Vertical": 1,
+            "Horizontal": 2
+          },
+        },
+        "Value": {
+          "type": "Integer",
+          "default": 0,
+          "min": -127,
+          "max": 127
         }
       }
     },
@@ -731,8 +805,8 @@
           "options": {
             "Upper": "DBU:",
             "Lower": "DBB:",
-            "Right": "DBR:",
-            "Left": "DBL:"
+			"Left": "DBL:",
+            "Right": "DBR:"
           }
         },
         "Upper": {
@@ -785,7 +859,7 @@
         }
       }
     },
-    "Edge Blending": {
+    "Edge Blending On/Off": {
       "menu": "Advanced",
       "callback": "advanced_blending",
       "parameters": {
@@ -799,7 +873,7 @@
         }
       }
     },
-    "Edge Blending On/Off": {
+    "Edge Blending Upper/Lower/Left/Right On/Off": {
       "menu": "Advanced",
       "callback": "advanced_blending_onoff",
       "parameters": {
@@ -808,8 +882,8 @@
           "options": {
             "Upper": "VGU:",
             "Lower": "VGB:",
-            "Right": "VGR:",
-            "Left": "VGL:"
+			"Left": "VGL:",
+            "Right": "VGR:"
           }
         },
         "ON OFF": {
@@ -1068,6 +1142,108 @@
             "check": "equals",
             "action": "show"
           }
+        }
+      }
+    },
+	"Color Matching 7 Colors": {
+      "menu": "Display Options",
+      "callback": "display_color_7",
+      "parameters": {
+        "Color": {
+          "type": "Enum",
+          "options": {
+            "Red": "0",
+            "Green": "1",
+            "Blue": "2",
+			"Cyan": "3",
+            "Magenta": "4",
+            "Yellow": "5",
+            "White": "6",
+			"Auto Testpattern": "7",
+			"Reset": "8",
+          }
+        },
+        "Red Channel": {
+          "type": "Integer",
+		  "value" : "red",
+		  "min": 0,
+          "max": 2048,
+			"dependency": {
+            "source": "Color",
+            "value": "7",
+            "check": "lessThan",
+            "action": "show"
+          }
+        },
+        "Green Channel": {
+          "type": "Integer",
+		  "value" : "green",
+		  "min": 0,
+          "max": 2048,
+			"dependency": {
+            "source": "Color",
+            "value": "7",
+            "check": "lessThan",
+            "action": "show"
+          }
+        },
+        "Blue Channel": {
+          "type": "Integer",
+		  "value" : "blue",
+		  "min": 0,
+          "max": 2048,
+			"dependency": {
+            "source": "Color",
+            "value": "7",
+            "check": "lessThan",
+            "action": "show"
+          }
+        },
+        "Auto Testpattern": {
+          "type": "Boolean",
+		  "value" : "tp",
+		"dependency": {
+            "source": "Color",
+            "value": "7",
+            "check": "equals",
+            "action": "show"
+          }
+        }
+      }
+    },
+	"Color Correction Off/User": {
+      "menu": "Display Options",
+      "callback": "color_correction_onoff",
+      "parameters": {
+        "Mode": {
+          "type": "Enum",
+          "options": {
+            "OFF": "0",
+            "User": "1"
+          }
+        }
+      }
+    },
+	"Color Correction User": {
+      "menu": "Display Options",
+      "callback": "color_correction",
+      "parameters": {
+        "Color Correction": {
+          "type": "Enum",
+		  "value" : "colorCorrection",
+          "options": {
+            "Red": "0",
+            "Green": "1",
+			"Blue": "2",
+			"Cyan": "3",
+			"Magenta": "4",
+			"Yellow": "5",
+          }
+		},
+		"Value": {
+          "type": "Integer",
+		  "min": -31,
+          "max": 31,
         }
       }
     },
