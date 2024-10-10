@@ -5,7 +5,7 @@
   "version": "0.0.2",
   "description": "Chataigne Module for IP-control of Panasonic Projectors by Nic Roßmann, Jonas Link (Thalia Theater Hamburg)",
   "url": "https://github.com/colneck/panasonic-projector-tcp-chataigne-module/",
-  "downloadURL": "",
+  "downloadURL": "https://github.com/colneck/panasonic-projector-tcp-chataigne-module/archive/master.zip",
   "hasInput": true,
   "hasOutput": true,
   "hideDefaultCommands": true,
