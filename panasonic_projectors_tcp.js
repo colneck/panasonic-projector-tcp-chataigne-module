@@ -6,14 +6,46 @@ function init() {
   script.log("Panasonic Projector IP module loaded");
 }
 	
-function moduleParameterChanged(param) {
+/*function moduleParameterChanged(param) {
   script.log(param.name + " parameter changed, new value: " + param.get());
-}
+}*/
 
 function send_command(command) {
+	/* When md5-hash-generation is possible: if root.modules.panasonicProjectorIP_Protocol.values.ntcontrol.get() != '0' generate a hash to send right before "00" in the command structure, in the format xxxxxx:yyyyyyy:zzzzzzz (with xxxxxx = admin user name, yyyyyyy = password, zzzzzzz = random number sent after NTCONTROL 0 zzzzzzz */
 	local.send("00" + command + "\r \n");
-  //Can lead to errors, when connection is not established yet. Searching for another way to get feedback if password-proztecion is on
-	//if (root.modules.panasonicProjectorIP_Protocol.values.ntcontrol.get() != '0') script.logWarning("Please disable command-protect in the menu of your projector.");
+}
+
+	
+function moduleValueChanged(value) { 
+	if(value.isParameter()) { 
+		script.log("Module value changed : "+value.name+" > "+value.get()); 
+	} else {
+		if (value.name == "erra") {
+			util.showMessageBox("Warning", "Please disable command-protect in the menu of your projector or use correct admin-username and password.", "warning", "OK");
+			script.logWarning("Module value triggered : "+value.name); 
+		} else if (value.name == "err1") {
+			util.showMessageBox("Warning", "Undefined control command", "warning", "OK");
+			script.logWarning("Module value triggered : "+value.name); 
+		} else if (value.name == "err2") {
+			util.showMessageBox("Warning", "Out of parameter range", "warning", "OK");
+			script.logWarning("Module value triggered : "+value.name); 
+		} else if (value.name == "err3") {
+			util.showMessageBox("Warning", "Busy state or no acceptable period", "warning", "OK");
+			script.logWarning("Module value triggered : "+value.name);
+		} else if (value.name == "err4") {
+			util.showMessageBox("Warning", "Timeout or no acceptable period", "warning", "OK");
+			script.logWarning("Module value triggered : "+value.name);
+		} else if (value.name == "err5") {
+			util.showMessageBox("Warning", "Wrong data length", "warning", "OK");
+			script.logWarning("Module value triggered : "+value.name);
+		}  else if (value.name == "00er401") {
+			util.showMessageBox("Warning", "Command could not be executed", "warning", "OK");
+			script.logWarning("Module value triggered : "+value.name);
+		}  else if (value.name == "00er402") {
+			util.showMessageBox("Warning", "Invalid parameter", "warning", "OK");
+			script.logWarning("Module value triggered : "+value.name);
+		} 
+	}
 }
 
 function numberToString(num) {
