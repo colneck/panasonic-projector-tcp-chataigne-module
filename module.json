@@ -1,5 +1,5 @@
 {
-  "name": "Panasonic Projector IP control",
+  "name": "Panasonic Projector IP",
   "type": "TCP Client",
   "path": "Hardware",
   "version": "0.0.4",
