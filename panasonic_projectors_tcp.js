@@ -1,6 +1,6 @@
 //------- BASIC-FUNCTIONS 
 
-
+var lastcommand;
 
 function init() {
   script.log("Panasonic Projector IP module loaded");
@@ -12,6 +12,7 @@ function init() {
 
 function send_command(command) {
 	/* When md5-hash-generation is possible: if root.modules.panasonicProjectorIP_Protocol.values.ntcontrol.get() != '0' generate a hash to send right before "00" in the command structure, in the format xxxxxx:yyyyyyy:zzzzzzz (with xxxxxx = admin user name, yyyyyyy = password, zzzzzzz = random number sent after NTCONTROL 0 zzzzzzz */
+	lastcommand = command;
 	local.send("00" + command + "\r \n");
 }
 
@@ -24,7 +25,7 @@ function moduleValueChanged(value) {
 			util.showMessageBox("Warning", "Please disable command-protect in the menu of your projector or use correct admin-username and password.", "warning", "OK");
 			script.logWarning("Module value triggered : "+value.name); 
 		} else if (value.name == "err1") {
-			util.showMessageBox("Warning", "Undefined control command", "warning", "OK");
+			util.showMessageBox("Warning", lastcommand + "\nUndefined control command", "warning", "OK");
 			script.logWarning("Module value triggered : "+value.name); 
 		} else if (value.name == "err2") {
 			util.showMessageBox("Warning", "Out of parameter range", "warning", "OK");
@@ -39,10 +40,10 @@ function moduleValueChanged(value) {
 			util.showMessageBox("Warning", "Wrong data length", "warning", "OK");
 			script.logWarning("Module value triggered : "+value.name);
 		}  else if (value.name == "00er401") {
-			util.showMessageBox("Warning", "Command could not be executed", "warning", "OK");
+			util.showMessageBox("Warning", lastcommand + "\nCommand could not be executed", "warning", "OK");
 			script.logWarning("Module value triggered : "+value.name);
 		}  else if (value.name == "00er402") {
-			util.showMessageBox("Warning", "Invalid parameter", "warning", "OK");
+			util.showMessageBox("Warning", lastcommand + "\nInvalid parameter", "warning", "OK");
 			script.logWarning("Module value triggered : "+value.name);
 		} 
 	}
