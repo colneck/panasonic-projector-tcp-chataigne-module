@@ -186,7 +186,7 @@ function picture_daylight_view(view) {
 function picture_sharpness(value) {
   if (value < 10) value = "00" + value;
   else value = "0" + value;
-  send_command("VSR=" + value);
+  send_command("VSR:" + value);
 }
 
 function picture_noise_reduction(red) {
