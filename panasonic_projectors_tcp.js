@@ -40,7 +40,7 @@ function moduleValueChanged(value) {
 			util.showMessageBox("Warning", "Wrong data length", "warning", "OK");
 			script.logWarning("Module value triggered : "+value.name);
 		}  else if (value.name == "00er401") {
-			util.showMessageBox("Warning", lastcommand + "\nCommand could not be executed", "warning", "OK");
+			util.showMessageBox("Warning", lastcommand + "\nCommand could not be executed. Maybe the time-interval between commands was to short.", "warning", "OK");
 			script.logWarning("Module value triggered : "+value.name);
 		}  else if (value.name == "00er402") {
 			util.showMessageBox("Warning", lastcommand + "\nInvalid parameter", "warning", "OK");
